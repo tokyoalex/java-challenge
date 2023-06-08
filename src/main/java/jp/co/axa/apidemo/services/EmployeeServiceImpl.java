@@ -1,5 +1,6 @@
 package jp.co.axa.apidemo.services;
 
+import com.sun.deploy.security.SelectableSecurityManager;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,22 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     public Employee getEmployee(Long employeeId) {
-        Optional<Employee> optEmp = employeeRepository.findById(employeeId);
-        return optEmp.get();
+        if(employeeRepository.existsById(employeeId)) {
+            Optional<Employee> optEmp = employeeRepository.findById(employeeId);
+            return optEmp.get();
+        }
+        return null;
     }
 
-    public void saveEmployee(Employee employee){
-        employeeRepository.save(employee);
+    public Employee saveEmployee(Employee employee){
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(Long employeeId){
         employeeRepository.deleteById(employeeId);
     }
 
-    public void updateEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 }

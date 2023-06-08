@@ -1,0 +1,5 @@
+insert into EMPLOYEE (EMPLOYEE_NAME, EMPLOYEE_SALARY, DEPARTMENT) values('Alex', 55000, 'dev');
+insert into EMPLOYEE (EMPLOYEE_NAME, EMPLOYEE_SALARY, DEPARTMENT) values('Neil', 25000, 'warehouse');
+insert into EMPLOYEE (EMPLOYEE_NAME, EMPLOYEE_SALARY, DEPARTMENT) values('James', 5000000, 'ceo');
+insert into EMPLOYEE (EMPLOYEE_NAME, EMPLOYEE_SALARY, DEPARTMENT) values('Andrew', 120000, 'server');
+insert into EMPLOYEE (EMPLOYEE_NAME, EMPLOYEE_SALARY, DEPARTMENT) values('Matt', 60000, 'front end');
