@@ -8,10 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
+    private final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 
     @Autowired
     private EmployeeService employeeService;
@@ -22,55 +25,59 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public List<Employee> getEmployees() {
-        System.out.println("\nGet all employees");
+        log.info("Get all employees");
+
         List<Employee> employees = employeeService.retrieveEmployees();
-        System.out.println("\nEmployee count: " +employees.size());
+        log.info("Employee count: " +employees.size());
         return employees;
     }
 
     @GetMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> getEmployee(@PathVariable(name="employeeId")Long employeeId) {
-        System.out.println("\nGet employee id: "+ employeeId);
+        log.info("Get employee id: "+ employeeId);
+
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null) {
-            System.out.println("\nGet success");
+            log.info("Get success");
             return new ResponseEntity<Employee>(emp, HttpStatus.OK);
         }
-        System.out.println("\nGet failed, employee not found");
+
+        log.warn("Get failed, employee not found");
         return new ResponseEntity<Employee>(new Employee(), HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/employees")
     public ResponseEntity<Employee>  saveEmployee(@RequestBody Employee employee){
-        System.out.println("\nSaving employee "+ employee.getName());
+        log.info("Saving employee "+ employee.getName());
         Employee emp = employeeService.saveEmployee(employee);
         return new ResponseEntity<Employee>(emp, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
-        System.out.println("\nDeleting employee id: " + employeeId);
+        log.info("Deleting employee id: " + employeeId);
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null){
             employeeService.deleteEmployee(employeeId);
-            System.out.println("\nSuccessfully deleted");
+            log.info("Successfully deleted");
             return new ResponseEntity(HttpStatus.ACCEPTED);
         }
-        System.out.println("\nDelete failed, employee not found");
+
+        log.warn("Delete failed, employee not found");
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee,
                                @PathVariable(name="employeeId")Long employeeId){
-        System.out.println("\nUpdate employee id: " + employeeId);
+        log.info("Update employee id: " + employeeId);
         Employee emp = employeeService.getEmployee(employeeId);
 
         if(emp != null){
-            System.out.println("\nSuccessfully updated");
+            log.info("Successfully updated");
             return new ResponseEntity<Employee>(employeeService.updateEmployee(employee), HttpStatus.OK);
         }
-        System.out.println("\nUpdate failed, employee not found");
+        log.warn("Update failed, employee not found");
         return new ResponseEntity<Employee>(employee, HttpStatus.NOT_FOUND);
     }
 
