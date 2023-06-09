@@ -24,12 +24,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
+    public ResponseEntity<List<Employee>> getEmployees() {
         log.info("Get all employees");
 
         List<Employee> employees = employeeService.retrieveEmployees();
         log.info("Employee count: " +employees.size());
-        return employees;
+        return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
     }
 
     @GetMapping("/employees/{employeeId}")

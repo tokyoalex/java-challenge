@@ -45,8 +45,51 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 #### Your experience in Java
 
-Please let us know more about your Java experience in a few sentences. For example:
+- I'm a currently a mobile application developer so use Java for native Android application development, 
+however my previous role was full stack where I used Java with Android and Spring Boot for approximately a year, 
+additionally used Java with the Play framework for about a year.
 
-- I have 3 years experience in Java and I started to use Spring Boot from last year
-- I'm a beginner and just recently learned Spring Boot
-- I know Spring Boot very well and have been using it for many years
+
+#### REST API Usage
+
+- Base URL for running locally: http://localhost:8080/AxaWebApp/api/v1/
+  (Defined in src/main/resources/application.properties)
+
+- As per the original specifications, the following REST APIs are available for the EmployeeController
+
+#### GET /employees
+- HTTP method: GET
+- Parameters: None
+- Description: Retrieves all employees from the in-memory(h2) database  
+- Return: json object containing a list of all employees, or an empty object if no employees exist, both with
+HTTP status OK
+
+#### GET /employees/{employeeId}
+- HTTP method: GET
+- Parameters: employeeId
+- Description: Retrieves an employee from the in-memory(h2) database
+- Return: json object containing the employee specified in the request with HTTP status OK, 
+or an empty object if the employee isnt found with HTTP status NOT_FOUND
+
+#### POST /employees
+- HTTP method: POST
+- Parameters: Employee object in json format, containing (String) name, (Integer) salary, (String) department
+- Description: Adds an employee to the in-memory(h2) database
+- Return: json object containing the employee specified in the request with HTTP status CREATED
+
+#### DELETE /employees/{employeeId}
+- HTTP method: DELETE
+- Parameters: employeeId
+- Description: Deletes an employee from the in-memory(h2) database
+- Return: HTTP status ACCEPTED if deletion was successful, HTTP status of NOT_FOUND if the employee id doesnt exist 
+
+#### PUT /employees/{employeeId}
+- HTTP method: PUT
+- Parameters: employeeId
+- Description: Updates an existing employees data in the in-memory(h2) database
+- Return: HTTP status OK if the update was successful, HTTP status of NOT_FOUND if the employee id doesnt exist 
+
+### Employee Object
+- Package to import: jp.co.axa.apidemo.entities
+- Instantiated with the following constructor:
+Employee(String name, Integer salary, String department)
