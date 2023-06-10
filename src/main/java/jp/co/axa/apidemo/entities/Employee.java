@@ -9,13 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name="EMPLOYEE")
-public class Employee {
+public class Employee implements Serializable {
 
     public Employee()  {}
     public Employee(String name, Integer salary, String department)    {
+        this.name = name;
+        this.salary = salary;
+        this.department = department;
+    }
+
+    public Employee(Long id, String name, Integer salary, String department)    {
+        this.id = id;
         this.name = name;
         this.salary = salary;
         this.department = department;
