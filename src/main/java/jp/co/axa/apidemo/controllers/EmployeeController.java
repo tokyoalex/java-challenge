@@ -67,6 +67,8 @@ public class EmployeeController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
+    // Employee object must contain id field in order to update an existing record
+    // rather than create a new one
     @PutMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee,
                                @PathVariable(name="employeeId")Long employeeId){
