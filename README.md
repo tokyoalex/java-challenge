@@ -15,6 +15,14 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - I frequently use multiple languages; Java 8 years, Spring Boot (several months during previous role)
 I've also used other similar frameworks such as Play and CakePhp
 
+#### Build instructions
+- To install maven dependencies: mvn package
+- To run in a terminal: mvn spring-boot:run
+- To run unit tests: mvn test
+
+- Note: Since Java 8 is required and I'm using a later version of Java in my dev environment, javac is hardcoded in pom.xml 
+If your environment only has Java 8 installed, please delete the maven-compiler-plugin section of pom.xml,
+alternatively, enter the path to your local javac
 
 #### Employee Object
 
@@ -69,6 +77,10 @@ or an empty object if the employee isnt found with HTTP status NOT_FOUND
 - Added basic http authentication, with the username/ password defined in respectively as SecurityConfiguration.java as user/user456
 - Added unit tests for each REST API including those to test some failures
 - data.sql is used in Unit testing to populate the database with a few sample employees
+- In addition to the unit tests, I tested using postman, using the following url
+  http://localhost:8080/AxaWebApp/api/v1/employees
+and configured the appropriate http method, url parameter, json object, and authentication there. If you launch this
+url in a browser without authentication, you will get an Unauthorised http status.
 
 #### Restrictions
 - use java 8
