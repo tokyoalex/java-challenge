@@ -7,7 +7,7 @@
         <key-type>java.lang.Long</key-type>
         <value-type>jp.co.axa.apidemo.entities.Employee</value-type>
         <resources>
-            <heap unit="entries">20</heap>
+            <heap unit="entries">200</heap>
             <offheap unit="MB">10</offheap>
         </resources>
     </cache>

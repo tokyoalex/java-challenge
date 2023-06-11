@@ -98,4 +98,5 @@ or an empty object if the employee isnt found with HTTP status NOT_FOUND
 - Return value: HTTP status OK if the update was successful, HTTP status of NOT_FOUND if the employee id doesnt exist 
 
 #### Miscellaneous
-You can check the status of the ehCache via Jconsole, which the Spring boot application is running
+- Added caching using ehCache. You can check the status of the ehCache via Jconsole, when the Spring boot application is running
+- Added basic http authentication, with the username and password

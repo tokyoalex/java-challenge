@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.*;
@@ -26,6 +28,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,14 +40,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class ApiDemoApplicationTests {
 
  	@Autowired
-    private MockMvc mvc;
+	private MockMvc mvc;
+
+	private String username = "user";
+	private String password = "user456";
 
 	@Test
 	@Order(1)
-	public void getEmployees()
-			throws Exception {
-		this.mvc.perform(get("/api/v1/employees")).andExpect(status().isOk())
-				.andDo(print());
+	public void getEmployees() throws Exception {
+		this.mvc.perform(MockMvcRequestBuilders
+						.get("/api/v1/employees")
+				.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
+				.andExpect(status().isOk()).andDo(print());
 	}
 
 	@Test
@@ -57,6 +64,7 @@ public class ApiDemoApplicationTests {
 
 		mvc.perform( MockMvcRequestBuilders
 						.post("/api/v1/employees")
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password))
 						.content(json)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
@@ -71,7 +79,8 @@ public class ApiDemoApplicationTests {
 		Long empId = 1L;
 
 		mvc.perform( MockMvcRequestBuilders
-						.get("/api/v1/employees/{employeeId}", empId))
+						.get("/api/v1/employees/{employeeId}", empId)
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
 				.andExpect(status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Alex"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
@@ -84,15 +93,18 @@ public class ApiDemoApplicationTests {
 		Long empId = 123456L;
 
 		mvc.perform( MockMvcRequestBuilders
-						.get("/api/v1/employees/{employeeId}", empId))
-				.andExpect(status().isNotFound());
+						.get("/api/v1/employees/{employeeId}", empId)
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
+						.andExpect(status().isNotFound());
 	}
 
 	@Test
 	@Order(5)
 	public void deleteEmployee() throws Exception {
 		Long empId = 3L;
-		mvc.perform( MockMvcRequestBuilders.delete("/api/v1/employees/{employeeId}", empId) )
+		mvc.perform(MockMvcRequestBuilders
+						.delete("/api/v1/employees/{employeeId}", empId)
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
 				.andExpect(status().isAccepted());
 	}
 
@@ -100,7 +112,9 @@ public class ApiDemoApplicationTests {
 	@Order(6)
 	public void deleteEmployeeFail() throws Exception {
 		Long empId = 123456L;
-		mvc.perform( MockMvcRequestBuilders.delete("/api/v1/employees/{employeeId}", empId) )
+		mvc.perform( MockMvcRequestBuilders
+						.delete("/api/v1/employees/{employeeId}", empId)
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
 				.andExpect(status().isNotFound());
 	}
 
@@ -114,6 +128,7 @@ public class ApiDemoApplicationTests {
 
 		mvc.perform( MockMvcRequestBuilders
 						.put("/api/v1/employees/{employeeId}", empId)
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password))
 						.content(json)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
@@ -134,6 +149,7 @@ public class ApiDemoApplicationTests {
 
 		mvc.perform( MockMvcRequestBuilders
 						.put("/api/v1/employees/{employeeId}", empId)
+						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password))
 						.content(json)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
