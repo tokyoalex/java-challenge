@@ -35,13 +35,11 @@ public class EmployeeController {
     @GetMapping("/employees/{employeeId}")
     public ResponseEntity<Employee> getEmployee(@PathVariable(name="employeeId")Long employeeId) {
         log.info("Get employee id: "+ employeeId);
-
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null) {
             log.info("Get success");
             return new ResponseEntity<Employee>(emp, HttpStatus.OK);
         }
-
         log.warn("Get failed, employee not found");
         return new ResponseEntity<Employee>(new Employee(), HttpStatus.NOT_FOUND);
     }

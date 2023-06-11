@@ -82,6 +82,7 @@ public class ApiDemoApplicationTests {
 						.get("/api/v1/employees/{employeeId}", empId)
 						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
 				.andExpect(status().isOk())
+				.andDo(print())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Alex"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.department").value("dev"));
@@ -95,6 +96,7 @@ public class ApiDemoApplicationTests {
 		mvc.perform( MockMvcRequestBuilders
 						.get("/api/v1/employees/{employeeId}", empId)
 						.with(SecurityMockMvcRequestPostProcessors.httpBasic(username,password)))
+						.andDo(print())
 						.andExpect(status().isNotFound());
 	}
 

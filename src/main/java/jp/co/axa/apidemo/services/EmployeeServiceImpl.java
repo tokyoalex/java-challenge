@@ -33,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employees;
     }
 
-    @Cacheable(value="employeeCache", key = "#employeeId")
+    @Cacheable(value="employeeCache", key = "#employeeId", unless="#result == null")
     public Employee getEmployee(Long employeeId) {
         log.info("Fetching the employee " + employeeId);
         if(employeeRepository.existsById(employeeId)) {
