@@ -17,6 +17,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private String username = "user";
     private String password = "user456";
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/swagger-ui/**",
+            "/h2-console/**"
+    };
+
     @Autowired
     private EmployeeBasicAuthenticationEntryPoint authenticationEntryPoint;
 
@@ -30,6 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/employees")
                 .access("@userAuthorizationControl.checkAccessBasedOnRole(authentication)")
                 .anyRequest()
@@ -40,6 +55,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.exceptionHandling().authenticationEntryPoint(new UnauthorisedEntryPoint());
     }
+
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
