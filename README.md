@@ -86,3 +86,19 @@ url in a browser without authentication, you will get an Unauthorised http statu
 - use java 8
 - This restricts Spring Boot to version 5.1.6 as well as other dependencies 
 
+#### Docker Usage
+create subdirectory for running docker, copy dockerfile and jar file there
+
+### build spring boot jar file (for docker)
+mvn clean package -Dmaven.test.skip spring-boot:repackage
+copy the output jar file to docker directory
+
+### build docker
+from the above docker directory, run at cli
+docker build -t tokyoalex/apidemoapplication .
+
+### run docker
+docker run -p 8080:8080 tokyoalex/apidemoapplication
+
+### access docker spring boot app
+access normally via localhost on above port for postman (or browser if disable security)
